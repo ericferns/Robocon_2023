@@ -1,8 +1,8 @@
 //ER Integrated digital pins communication
 
-// #include <PS4BT.h>   //PS4 Bluetooth
-// #include <usbhub.h>  //Comment this for PS4 USB
-#include <PS4USB.h> //PS4 Usb
+#include <PS4BT.h>   //PS4 Bluetooth
+#include <usbhub.h>  //Comment this for PS4 USB
+//#include <PS4USB.h> //PS4 Usb
 
 #include <Servo.h>
 
@@ -90,16 +90,16 @@ const int com_pin1 = 39;
 const int com_pin0 = 37;
 
 /**** PS4 USB ****/
-// Use this for PS4 USB and comment PS4 BT
-USB Usb;
-PS4USB PS4(&Usb);
+//Use this for PS4 USB and comment PS4 BT
+//USB Usb;
+//PS4USB PS4(&Usb);
 /**** PS4 USB ****/
 
 /**** PS4 BT ****/
 // Use this for PS4 BT and comment PS4 USB
-// USB Usb;
-// BTD Btd(&Usb);  // You have to create the Bluetooth Dongle instance like so
-// PS4BT PS4(&Btd, PAIR);
+USB Usb;
+BTD Btd(&Usb);  // You have to create the Bluetooth Dongle instance like so
+PS4BT PS4(&Btd, PAIR);
 /**** PS4 BT ****/
 
 bool printAngle, printTouch;
@@ -277,7 +277,7 @@ void loop() {
       analogWrite(m2_pwm, pwm_shooter);
     }
 
-    else if (PS4.getButtonClick(L3) && PS4.getButtonPress(L2)) {
+    else if (PS4.getButtonPress(L3) && PS4.getButtonClick(L2)) {
       if (pwm_shooter <= 0) {
         pwm_shooter = 0;
       } else {
@@ -291,7 +291,7 @@ void loop() {
 
     else if (PS4.getButtonPress(L3) && PS4.getButtonClick(SQUARE)) {
       // pwm_shooter = 85;  // Near type 2 pole
-      pwm_shooter = 50;  // Near type 2 pole
+      pwm_shooter = 255;  // Near type 2 pole
       Serial.print("Shooter PWM");
       Serial.println(pwm_shooter);
       analogWrite(m1_pwm, pwm_shooter);
