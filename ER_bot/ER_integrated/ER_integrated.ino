@@ -14,9 +14,9 @@
 
 //cytron - shooter
 const int m1_dir = 24;  //right motor with behind the shooter - pov
-const int m1_pwm = 8;
+const int m1_pwm = 7;
 const int m2_dir = 22;  //left motor with behind the shooter - pov
-const int m2_pwm = 9;
+const int m2_pwm = 8;
 
 long long currT = 0;
 
@@ -26,7 +26,7 @@ int pwm2 = 0;
 int pwm_shooter = 85;
 
 //piston - shooter
-const int relay_shooter = 32;
+const int relay_shooter = 47;
 
 // servos for the claw
 Servo servo_left;
@@ -52,14 +52,14 @@ int Y_in1 = 34;
 int Y_in2 = 28;
 
 // rotating 180 motor using l298n
-const int rotate_in3 = 30;
-const int rotate_in4 = 36;
-const int rotate_enB = 3;
+const int rotate_in3 = 33;
+const int rotate_in4 = 40;
+const int rotate_enB = 5;
 
 //x-axis of shooter
-const int X_in3 = 36;
-const int X_in4 = 38;
-const int X_enB = 25;
+const int X_in3 = 30;
+const int X_in4 = 36;
+const int X_enB = 3;
 
 // cascading lift motor
 const int cas_dir1 = 40;
@@ -79,7 +79,7 @@ const int cas_pwm1 = 5;
 // const int limit_switch3 = ;
 
 // relay claw
-const int relay_claw = 47;
+const int relay_claw = 32;
 
 //communication pins
 //ER
@@ -134,7 +134,7 @@ void setup() {
   pinMode(m2_dir, OUTPUT);
   pinMode(m2_pwm, OUTPUT);
 
-  digitalWrite(m1_dir, HIGH);  // right
+  digitalWrite(m1_dir, LOW);  // right
   digitalWrite(m2_dir, HIGH);  // left
 
   analogWrite(m1_pwm, 0);
@@ -153,7 +153,7 @@ void setup() {
   // digitalWrite(Y_enA, HIGH);
   digitalWrite(Y_in1, LOW);
   digitalWrite(Y_in2, LOW);
-  analogWrite(Y_enA, 150);
+  analogWrite(Y_enA, 255);
 
 
   // rotating 180 motor using l298n
@@ -165,12 +165,12 @@ void setup() {
   analogWrite(rotate_enB, 50);
 
   //x-axis of shooter
-  // pinMode(X_enB, OUTPUT);
-  // pinMode(X_in3, OUTPUT);
-  // pinMode(X_in4, OUTPUT);
-  // digitalWrite(X_in3, LOW);
-  // digitalWrite(X_in4, LOW);
-  // analogWrite(X_enB, 150);
+  pinMode(X_enB, OUTPUT);
+  pinMode(X_in3, OUTPUT);
+  pinMode(X_in4, OUTPUT);
+  digitalWrite(X_in3, LOW);
+  digitalWrite(X_in4, LOW);
+  analogWrite(X_enB, 255);
 
   // cascading lift motor
   // pinMode(cas_enB, OUTPUT);
@@ -313,7 +313,7 @@ void loop() {
       // Serial.println("SHOT!!");
       digitalWrite(relay_shooter, LOW);
 
-      digitalWrite(relay_claw, HIGH);
+      //digitalWrite(relay_claw, HIGH);
       // digitalWrite(relay_claw, LOW);
 
       delay(200);
@@ -334,7 +334,7 @@ void loop() {
       delay(500);
 
       // digitalWrite(relay_claw, HIGH);
-      digitalWrite(relay_claw, LOW);
+      //digitalWrite(relay_claw, LOW);
     } else  //retract piston
     {
       digitalWrite(relay_shooter, LOW);
@@ -439,21 +439,21 @@ void loop() {
     /**** Y-axis *****/
 
     /**** X-axis *****/
-    // if (PS4.getButtonPress(R2) && PS4.getButtonPress(CIRCLE))  //right
-    // {
-    //   Serial.println("Shooter Right");
-    //   digitalWrite(X_in3, HIGH);
-    //   digitalWrite(X_in4, LOW);
-    // } else if (PS4.getButtonPress(L2) && PS4.getButtonPress(CIRCLE))  //left
-    // {
-    //   Serial.println("Shooter Left");
-    //   digitalWrite(X_in3, LOW);
-    //   digitalWrite(X_in4, HIGH);
-    // } else {
-    //   Serial.println("Stop X-axis");
-    //   digitalWrite(X_in3, LOW);
-    //   digitalWrite(X_in4, LOW);
-    // }
+    if (PS4.getButtonPress(R2) && PS4.getButtonPress(CIRCLE))  //right
+    {
+      Serial.println("Shooter Right");
+      digitalWrite(X_in3, HIGH);
+      digitalWrite(X_in4, LOW);
+    } else if (PS4.getButtonPress(L2) && PS4.getButtonPress(CIRCLE))  //left
+    {
+      Serial.println("Shooter Left");
+      digitalWrite(X_in3, LOW);
+      digitalWrite(X_in4, HIGH);
+    } else {
+      Serial.println("Stop X-axis");
+      digitalWrite(X_in3, LOW);
+      digitalWrite(X_in4, LOW);
+    }
     /**** X-axis *****/
 
     /**** Drive *****/
